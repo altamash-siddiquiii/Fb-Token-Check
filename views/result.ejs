@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Result</title>
+    <link rel="stylesheet" href="/css/result.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <% if(valid) { %>
+            <h2>Token is valid!</h2>
+            <p><strong>Name:</strong>
+                <%= data.name %>
+            </p>
+            <p><strong>ID:</strong>
+                <%= data.id %>
+            </p>
+            <p><strong>Profile URL:</strong>
+                <%= data.link %>
+            </p>
+            <% } else { %>
+                <h2>Invalid/Expired Token</h2>
+                <p>Error: <%= error %>
+                </p>
+                <% } %>
+                    <br>
+                    <a class="result-back" href="/">
+                        <i class="fas fa-arrow-left"></i> Go Back
+                    </a>
+                    <a class="result-back" href="https://www.facebook.com/TechnicalFyter" target="_blank">
+                        <i class="fa-brands fa-facebook"></i> Sʌɱɘɘʀ Sīīƞs
+                    </a>
+    </div>
+</body>
+
+</html>

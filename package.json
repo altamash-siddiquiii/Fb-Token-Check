@@ -1,0 +1,17 @@
+{
+  "name": "fb-token-check",
+  "version": "1.0.0",
+  "description": "This is a simple Node.js application designed to verify the validity of Facebook access tokens. The project features:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Altamash Siddiqui",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
