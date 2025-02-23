@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <% if(valid) { %>
-            <h2>Token is valid!</h2>
+            <h2><i class="fas fa-check"></i> Token is valid!</h2>
             <p><strong>Name:</strong>
                 <%= data.name %>
             </p>
@@ -26,7 +26,7 @@
                 <%= data.link %>
             </p>
             <% } else { %>
-                <h2>Invalid/Expired Token</h2>
+                <h2><i class="fas fa-xmark"></i> Invalid/Expired Token</h2>
                 <p>Error: <%= error %>
                 </p>
                 <% } %>

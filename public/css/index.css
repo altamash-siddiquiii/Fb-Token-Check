@@ -1,9 +1,10 @@
-/* Global base styles for the index page */
 body {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('/images/bgImg.jpg') no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f9;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,14 +16,14 @@ body {
     width: 90%;
     margin: 20px auto;
     padding: 30px;
-    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 h1 {
-    color: #4a90e2;
+    color: #ffffff;
+    /* Changed to white for better contrast */
     margin-bottom: 20px;
 }
 
@@ -39,6 +40,12 @@ input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
+    background: transparent;
+    color: #ffffff;
+}
+
+input[type="text"]::placeholder {
+    color: #dddddd;
 }
 
 .token-icon {
@@ -60,6 +67,7 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 button:hover {
     background-color: #357ABD;
 }
@@ -80,11 +88,13 @@ button:hover {
     border-top: 1px solid #ddd;
     text-align: center;
     font-size: 14px;
-    color: #777;
+    color: #dddddd;
+    /* Updated to light grey */
 }
 
 .about a {
-    color: #777;
+    color: #dddddd;
+    /* Updated to light grey */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;

@@ -1,9 +1,10 @@
-/* Global base styles for the result page */
 body {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('/images/bgImg.jpg') no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f9;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,26 +16,26 @@ body {
     width: 90%;
     margin: 20px auto;
     padding: 30px;
-    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 h2 {
-    color: #4a90e2;
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
 p {
     font-size: 1.1em;
     margin: 10px 0;
+    color: #dddddd;
 }
 
 .result-back {
     display: inline-flex;
     align-items: center;
-    color: grey;
+    color: wheat;
     padding: 10px 20px;
     border-radius: 4px;
     text-decoration: none;
@@ -45,15 +46,14 @@ p {
 }
 
 .result-back:hover {
-    color: #fff;
     background-color: #357ABD;
+    color: #ffffff;
 }
 
 .result-back i {
     margin-right: 5px;
     font-size: 1em;
 }
-
 
 @media (max-width: 600px) {
     .container {
