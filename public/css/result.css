@@ -22,20 +22,42 @@ body {
 }
 
 h2 {
-    color: #ffffff;
     margin-bottom: 20px;
+}
+
+.validTitle {
+    color: #ADD8E6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.invalidTitle {
+    color: #FFB6C1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+.validIcon, .invalidIcon {
+    font-size: 2rem;
+    margin-bottom: 5px;
 }
 
 p {
     font-size: 1.1em;
     margin: 10px 0;
-    color: #dddddd;
+}
+
+.validMsg {
+    color: #ADD8E6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.invalidMsg {
+    color: #FFB6C1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .result-back {
     display: inline-flex;
     align-items: center;
-    color: wheat;
+    color: #ddd;
     padding: 10px 20px;
     border-radius: 4px;
     text-decoration: none;
