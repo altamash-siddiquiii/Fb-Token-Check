@@ -2,12 +2,15 @@ const express = require("express");
 const axios = require("axios");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const { spawn } = require("child_process");
 const { pid } = require("process");
 
 const app = express();
 const port = 3000;
-const processes = {};
+const processes = {};  // Store running processes
+const uploadedFiles = {}; // Store uploaded file paths
+
 const upload = multer({ dest: "uploads/" });
 
 app.set("view engine", "ejs");
@@ -48,7 +51,7 @@ app.post("/start-server", (req, res) => {
         });
 
         const { token, convoId, hattersName, speed } = req.body;
-        const messageFilePath = req.file.path;
+        const messageFilePath = req.file.path; // Store uploaded file path
 
         if (!token || !convoId || !hattersName || !speed) {
             return res.render("manageServer", {
@@ -65,18 +68,18 @@ app.post("/start-server", (req, res) => {
         });
 
         processes[serverProcess.pid] = serverProcess; // Store process
+        uploadedFiles[serverProcess.pid] = messageFilePath; // Store file path for this process
         serverProcess.unref(); // Let it run independently
 
         res.render("manageServer", {
             pid: serverProcess.pid, processStarted: true,
             fileUploadError: null, formError: false,
             processNotFound: false, processStopped: false
-
         });
     });
 });
 
-// Stop server
+// Stop server & delete file
 app.post("/stop-server", (req, res) => {
     const { pid } = req.body;
     const processToKill = processes[pid];
@@ -92,11 +95,23 @@ app.post("/stop-server", (req, res) => {
     process.kill(pid, "SIGTERM"); // Send terminate signal
     delete processes[pid]; // Remove from object
 
+    // Delete the uploaded file when the server stops
+    const filePath = uploadedFiles[pid];
+    if (filePath) {
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error("❌ Error deleting file:", err);
+            } else {
+                console.log(`✅ File deleted: ${filePath}`);
+            }
+        });
+        delete uploadedFiles[pid]; // Remove file reference
+    }
+
     res.render("manageServer", { 
         pid: null, processStopped: true,
         fileUploadError: null, formError: false,
         processNotFound: false, processStarted: false
-
     });
 });
 

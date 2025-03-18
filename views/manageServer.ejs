@@ -45,9 +45,10 @@
                             </button>
         </form>
         <br>
-        <h3>Process ID :- <span>
+        <h3>Server ID :- <span>
                 <%= pid || "N/A" %>
-            </span></h3><br>
+            </span></h3>
+        <br>
         <% if (processStopped) { %>
             <p class="success"><i class="fas fa-circle-check"></i>&nbsp;Server stopped successfully!</p>
             <% } %>
@@ -56,12 +57,12 @@
                     <% } %>
 
                         <form action="/stop-server" method="POST">
-                            <label for="pid">Process ID :-</label>
-                            <input type="text" id="pid" name="pid" placeholder="Enter server's pid" required>
+                            <label for="pid">Server ID :-</label>
+                            <input type="text" id="pid" name="pid" placeholder="Enter server id" required>
                             <% if (processNotFound) { %>
                                 <p class="error" style="text-align: left; font-size: 14.5px;"><i
-                                        class="fas fa-triangle-exclamation"></i> Process not found! Please
-                                    enter a valid PID.</p>
+                                        class="fas fa-triangle-exclamation"></i> Server not running! Please
+                                    enter a running SID.</p>
                                 <% } %>
                                     <button type="submit">
                                         <i class="fas fa-circle-stop server-icon"></i> <span>Stop Server</span>
