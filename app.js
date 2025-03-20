@@ -36,46 +36,40 @@ app.post("/token-check", async (req, res) => {
 
 app.get("/manage-server", (req, res) => {
     res.render("manageServer", {
-        pid: null,
-        fileUploadError: null, formError: false,
-        processNotFound: false, processStopped: false, processStarted: false
+        pid: req.query.pid || null,
+        fileUploadError: req.query.fileUploadError || null,
+        formError: req.query.formError === "true",
+        processNotFound: req.query.processNotFound === "true",
+        processStopped: req.query.processStopped === "true",
+        processStarted: req.query.processStarted === "true"
     });
 });
 
 app.post("/start-server", (req, res) => {
     upload.single("messageFile")(req, res, (err) => {
-        if (err) return res.render("manageServer", {
-            pid: null,
-            fileUploadError: err.message, formError: false,
-            processNotFound: false, processStopped: false, processStarted: false
-        });
+        if (err) {
+            return res.redirect(`/manage-server?fileUploadError=${encodeURIComponent(err.message)}`);
+        }
 
         const { token, convoId, hattersName, speed } = req.body;
         const messageFilePath = req.file.path; // Store uploaded file path
 
         if (!token || !convoId || !hattersName || !speed) {
-            return res.render("manageServer", {
-                pid: null,
-                fileUploadError: null, formError: true,
-                processNotFound: false, processStopped: false, processStarted: false
-            });
+            return res.redirect(`/manage-server?formError=true`);
         }
 
         // Start the server process
         const serverProcess = spawn("node", ["server.js", token, convoId, hattersName, speed, messageFilePath], {
-            stdio: "ignore",
-            detached: true
+            stdio: "inherit",
+            detached: false
         });
 
         processes[serverProcess.pid] = serverProcess; // Store process
         uploadedFiles[serverProcess.pid] = messageFilePath; // Store file path for this process
         serverProcess.unref(); // Let it run independently
 
-        res.render("manageServer", {
-            pid: serverProcess.pid, processStarted: true,
-            fileUploadError: null, formError: false,
-            processNotFound: false, processStopped: false
-        });
+        console.log(`🚀 Server started with PID: ${serverProcess.pid}`);
+        return res.redirect(`/manage-server?processStarted=true&pid=${serverProcess.pid}`);
     });
 });
 
@@ -85,14 +79,11 @@ app.post("/stop-server", (req, res) => {
     const processToKill = processes[pid];
 
     if (!processToKill) {
-        return res.render("manageServer", { 
-            pid: null, processNotFound: true,
-            fileUploadError: null, formError: false,
-            processStopped: false, processStarted: false
-        });
+        return res.redirect(`/manage-server?processNotFound=true`);
     }
 
     process.kill(pid, "SIGTERM"); // Send terminate signal
+    console.log(`🚨 Server stopped of PID: ${pid} by user!`);
     delete processes[pid]; // Remove from object
 
     // Delete the uploaded file when the server stops
@@ -108,11 +99,7 @@ app.post("/stop-server", (req, res) => {
         delete uploadedFiles[pid]; // Remove file reference
     }
 
-    res.render("manageServer", { 
-        pid: null, processStopped: true,
-        fileUploadError: null, formError: false,
-        processNotFound: false, processStarted: false
-    });
+    return res.redirect(`/manage-server?processStopped=true`);
 });
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

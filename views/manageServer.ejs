@@ -27,17 +27,17 @@
 
             <label for="messageFile">Message File (.txt) :-</label>
             <input type="file" id="messageFile" name="messageFile" accept=".txt" required><br>
-            <% if (fileUploadError) { %>
+            <% if (locals.fileUploadError) { %>
                 <p class="error" style="text-align: left; font-size: 14.5px;"><i
                         class="fas fa-triangle-exclamation"></i>
-                    <%= fileUploadError %>
+                    <%= locals.fileUploadError %>
                 </p>
                 <% } %>
 
                     <label for="speed">Speed (seconds) :-</label>
                     <input type="number" id="speed" name="speed" min="1" placeholder="Enter speed" required><br><br>
-                    <% if (formError) { %>
-                        <p class="error"><i class="fas fa-circle-exclamation"></i> Some fields are missing!</p>
+                    <% if (locals.formError) { %>
+                        <p class="error"><i class="fas fa-circle-exclamation"></i> All fields are required!</p>
                         <% } %>
 
                             <button type="submit">
@@ -46,20 +46,20 @@
         </form>
         <br>
         <h3>Server ID :- <span>
-                <%= pid || "N/A" %>
-            </span></h3>
+            <%= locals.pid || "N/A" %>
+        </span></h3>
         <br>
-        <% if (processStopped) { %>
+        <% if (locals.processStopped) { %>
             <p class="success"><i class="fas fa-circle-check"></i>&nbsp;Server stopped successfully!</p>
             <% } %>
-                <% if (processStarted) { %>
+                <% if (locals.processStarted) { %>
                     <p class="success"><i class="fas fa-circle-check"></i>&nbsp;Server started successfully!</p>
                     <% } %>
 
                         <form action="/stop-server" method="POST">
                             <label for="pid">Server ID :-</label>
                             <input type="text" id="pid" name="pid" placeholder="Enter server id" required>
-                            <% if (processNotFound) { %>
+                            <% if (locals.processNotFound) { %>
                                 <p class="error" style="text-align: left; font-size: 14.5px;"><i
                                         class="fas fa-triangle-exclamation"></i> Server not running! Please
                                     enter a running SID.</p>
