@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <h1>Messenger Server by Sʌɱɘɘʀ</h1>
-        <form action="/start-server" method="POST" enctype="multipart/form-data">
+        <form action="/manage-server/start" method="POST" enctype="multipart/form-data">
             <label for="token">Your Token :-</label>
             <input type="text" id="token" name="token" placeholder="Enter your token" required><br>
 
@@ -46,8 +46,8 @@
         </form>
         <br>
         <h3>Server ID :- <span>
-            <%= locals.pid || "N/A" %>
-        </span></h3>
+                <%= locals.pid || "N/A" %>
+            </span></h3>
         <br>
         <% if (locals.processStopped) { %>
             <p class="success"><i class="fas fa-circle-check"></i>&nbsp;Server stopped successfully!</p>
@@ -55,27 +55,30 @@
                 <% if (locals.processStarted) { %>
                     <p class="success"><i class="fas fa-circle-check"></i>&nbsp;Server started successfully!</p>
                     <% } %>
+                        <% if (locals.invalidToken) { %>
+                            <p class="error"><i class="fas fa-triangle-exclamation"></i>&nbsp;Invalid/Expired token!</p>
+                            <% } %>
 
-                        <form action="/stop-server" method="POST">
-                            <label for="pid">Server ID :-</label>
-                            <input type="text" id="pid" name="pid" placeholder="Enter server id" required>
-                            <% if (locals.processNotFound) { %>
-                                <p class="error" style="text-align: left; font-size: 14.5px;"><i
-                                        class="fas fa-triangle-exclamation"></i> Server not running! Please
-                                    enter a running SID.</p>
-                                <% } %>
-                                    <button type="submit">
-                                        <i class="fas fa-circle-stop server-icon"></i> <span>Stop Server</span>
-                                    </button>
-                        </form>
-                        <div class="lastBtns">
-                            <a href="/">
-                                <i class="fas fa-arrow-left"></i> Go Back
-                            </a>
-                            <a href="https://www.facebook.com/TechnicalFyter" target="_blank">
-                                <i class="fa-brands fa-facebook"></i> Sʌɱɘɘʀ Sīīƞs
-                            </a>
-                        </div>
+                                <form action="/manage-server/stop" method="POST">
+                                    <label for="pid">Server ID :-</label>
+                                    <input type="text" id="pid" name="pid" placeholder="Enter server id" required>
+                                    <% if (locals.processNotFound) { %>
+                                        <p class="error" style="text-align: left; font-size: 14.5px;"><i
+                                                class="fas fa-triangle-exclamation"></i> Server not running! Please
+                                            enter a running SID.</p>
+                                        <% } %>
+                                            <button type="submit">
+                                                <i class="fas fa-circle-stop server-icon"></i> <span>Stop Server</span>
+                                            </button>
+                                </form>
+                                <div class="lastBtns">
+                                    <a href="/">
+                                        <i class="fas fa-arrow-left"></i> Go Back
+                                    </a>
+                                    <a href="https://www.facebook.com/TechnicalFyter" target="_blank">
+                                        <i class="fa-brands fa-facebook"></i> Sʌɱɘɘʀ Sīīƞs
+                                    </a>
+                                </div>
     </div>
 </body>
 

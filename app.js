@@ -4,11 +4,10 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { spawn } = require("child_process");
-const { pid } = require("process");
 
 const app = express();
 const port = 3000;
-const processes = {};  // Store running processes
+const processes = {}; // Store running processes
 const uploadedFiles = {}; // Store uploaded file paths
 
 const upload = multer({ dest: "uploads/" });
@@ -41,40 +40,49 @@ app.get("/manage-server", (req, res) => {
         formError: req.query.formError === "true",
         processNotFound: req.query.processNotFound === "true",
         processStopped: req.query.processStopped === "true",
-        processStarted: req.query.processStarted === "true"
+        processStarted: req.query.processStarted === "true",
+        invalidToken: req.query.invalidToken === "true"
     });
 });
 
-app.post("/start-server", (req, res) => {
-    upload.single("messageFile")(req, res, (err) => {
+app.post("/manage-server/start", async (req, res) => {
+    upload.single("messageFile")(req, res, async (err) => {
         if (err) {
             return res.redirect(`/manage-server?fileUploadError=${encodeURIComponent(err.message)}`);
         }
 
         const { token, convoId, hattersName, speed } = req.body;
-        const messageFilePath = req.file.path; // Store uploaded file path
+        const messageFilePath = req.file ? req.file.path : null;
 
         if (!token || !convoId || !hattersName || !speed) {
-            return res.redirect(`/manage-server?formError=true`);
+            return res.redirect("/manage-server?formError=true");
         }
 
-        // Start the server process
-        const serverProcess = spawn("node", ["server.js", token, convoId, hattersName, speed, messageFilePath], {
-            stdio: "inherit",
-            detached: false
-        });
+        try {
+            // Validate Token with Facebook API and Start Server
+            await axios.get(`https://graph.facebook.com/me?access_token=${token}`);
+            
+            // Start Server Process
+            const serverProcess = spawn("node", ["server.js", token, convoId, hattersName, speed, messageFilePath], {
+                stdio: "inherit",
+                detached: false
+            });
 
-        processes[serverProcess.pid] = serverProcess; // Store process
-        uploadedFiles[serverProcess.pid] = messageFilePath; // Store file path for this process
-        serverProcess.unref(); // Let it run independently
+            processes[serverProcess.pid] = serverProcess;
+            uploadedFiles[serverProcess.pid] = messageFilePath;
+            serverProcess.unref();
 
-        console.log(`🚀 Server started with PID: ${serverProcess.pid}`);
-        return res.redirect(`/manage-server?processStarted=true&pid=${serverProcess.pid}`);
+            console.log(`🚀 Server started with PID: ${serverProcess.pid}`);
+            return res.redirect(`/manage-server?processStarted=true&pid=${serverProcess.pid}`);
+        } catch (error) {
+            // Token Invalid, Process will not start
+            console.error("❌ Invalid Token. Process not started.");
+            return res.redirect("/manage-server?invalidToken=true");
+        }
     });
 });
 
-// Stop server & delete file
-app.post("/stop-server", (req, res) => {
+app.post("/manage-server/stop", (req, res) => {
     const { pid } = req.body;
     const processToKill = processes[pid];
 
@@ -82,11 +90,10 @@ app.post("/stop-server", (req, res) => {
         return res.redirect(`/manage-server?processNotFound=true`);
     }
 
-    process.kill(pid, "SIGTERM"); // Send terminate signal
+    process.kill(pid, "SIGTERM");
     console.log(`🚨 Server stopped of PID: ${pid} by user!`);
-    delete processes[pid]; // Remove from object
+    delete processes[pid];
 
-    // Delete the uploaded file when the server stops
     const filePath = uploadedFiles[pid];
     if (filePath) {
         fs.unlink(filePath, (err) => {
@@ -96,17 +103,17 @@ app.post("/stop-server", (req, res) => {
                 console.log(`✅ File deleted: ${filePath}`);
             }
         });
-        delete uploadedFiles[pid]; // Remove file reference
+        delete uploadedFiles[pid];
     }
 
     return res.redirect(`/manage-server?processStopped=true`);
 });
 
-// Ping server to keep it alive
+// Ping Route to Keep Server Alive
 setInterval(() => {
-    axios.get("https://fbtokencheckerbysameersiins.onrender.com/manage-server")
+    axios.get("https://fbtokencheckerbysameersiins.onrender.com/")
         .then((response) => console.log(`✅ ${response.status} Status: Ping request successful!`))
-        .catch((error) => console.log(`❌ ${error.response.status} Status: Ping request failed!`));
-}, 9 * 60 * 1000); // 9 minute
+        .catch((error) => console.log(`❌ Ping request failed!`));
+}, 9 * 60 * 1000); // Every 9 minutes
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
