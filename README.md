@@ -1,4 +1,3 @@
-```md
 # **Facebook Access Token Checker & Auto Message Sender**  
 
 This is a **Node.js-based application** that performs **Facebook access token verification** and **automated message sending** on Messenger.  
@@ -44,5 +43,4 @@ This project is deployed on **Render.com**. It includes:
 
 <br><br>  
 
-<h6>💻 Created by Altamash Siddiqui</h6>  
-```
+<h6>💻 Created by Altamash Siddiqui</h6>
