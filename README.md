@@ -24,7 +24,15 @@ This is a **Node.js-based application** that performs **Facebook access token ve
 ## **📌 How to Use**  
 
 ### **1️⃣ Start the Server**  
-- Clone this repo and Run this command:
+- Clone this repository:
+```sh
+git clone https://github.com/altamash-siddiquiii/Fb-Token-Check.git
+```
+- Go to this directory:
+```sh
+cd Fb-Token-Check
+```
+- Run this command:
 ```sh
 node app.js
 ```
@@ -39,9 +47,8 @@ node app.js
 - Click **Start Server** to begin sending messages automatically.  
 
 ## **🛠️ Deployment**  
-
-This project is deployed on **Render.com**.
-✅ Visit **https://fbtokencheckerbysameersiins.onrender.com/** to see the project.
+- Project is deployed on **Render.com**.  
+- Visit **https://fbtokencheckerbysameersiins.onrender.com/** to see the project.  
 
 <br><br>
 
