@@ -102,4 +102,11 @@ app.post("/stop-server", (req, res) => {
     return res.redirect(`/manage-server?processStopped=true`);
 });
 
+// Ping server to keep it alive
+setInterval(() => {
+    axios.get("https://fbtokencheckerbysameersiins.onrender.com/manage-server")
+        .then((response) => console.log(`✅ ${response.status} Status: Ping request successful!`))
+        .catch((error) => console.log(`❌ ${error.response.status} Status: Ping request failed!`));
+}, 9 * 60 * 1000); // 9 minute
+
 app.listen(port, () => console.log(`Server started on port ${port}`));
