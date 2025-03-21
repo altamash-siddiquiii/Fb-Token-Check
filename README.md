@@ -1,4 +1,3 @@
-```md
 # **Facebook Access Token Checker & Auto Message Sender**  
 
 This is a **Node.js-based application** that performs **Facebook access token verification** and **automated message sending** on Messenger.  
@@ -19,17 +18,19 @@ This is a **Node.js-based application** that performs **Facebook access token ve
 - **Node.js & Express.js** - For handling backend requests.  
 - **EJS** - For rendering dynamic web pages.  
 - **Axios** - For making API calls to Facebook.  
-- **Custom CSS** - For styling the frontend.  
+- **CSS** - For styling the frontend.  
+- **Font Awesome Library** - For displaying the icons.  
 
 ## **📌 How to Use**  
 
 ### **1️⃣ Start the Server**  
+- Clone this repo and Run this command:
 ```sh
 node app.js
 ```
 
-### **2️⃣ Open the Web Interface**  
-- Go to `http://localhost:3000/`  
+### **2️⃣ Open the Web Interface & Check Token**  
+- Go to **http://localhost:3000/**  and see the interface.
 - Enter your **Facebook access token** to check its validity.  
 
 ### **3️⃣ Send Automated Messages**  
@@ -39,10 +40,9 @@ node app.js
 
 ## **🛠️ Deployment**  
 
-This project is deployed on **Render.com**. It includes:  
-✅ Visit **https://fbtokencheckerbysameersiins.onrender.com/** to see the project.  
+This project is deployed on **Render.com**.
+✅ Visit **https://fbtokencheckerbysameersiins.onrender.com/** to see the project.
 
-<br><br>  
+<br><br>
 
-<h6>💻 Created by Altamash Siddiqui</h6>  
-```
+## 💻 Created by Altamash Siddiqui
