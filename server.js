@@ -39,7 +39,7 @@ async function sendMessages() {
                 });
 
                 console.log(`✅ Message sent: ${message}`);
-                await new Promise(resolve => setTimeout(resolve, speed * 1250)); // Delay
+                await new Promise(resolve => setTimeout(resolve, speed * 1125)); // Delay
             } catch (error) {
                 console.log(`❌ Failed to send message: ${error.message}`);
             }
